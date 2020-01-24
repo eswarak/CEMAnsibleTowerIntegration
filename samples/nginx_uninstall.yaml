@@ -3,7 +3,7 @@
   tasks:
     - name: stop nginx
       service:
-          name: nginx
+          name: {{ nginxname }}
           state: stopped
     - name: ensure nginx is not installed
-      apt: name=nginx state=absent
+      apt: name={{ nginxname }} state=absent
