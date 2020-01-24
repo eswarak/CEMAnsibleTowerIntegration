@@ -1,9 +1,15 @@
 ---
 - hosts: all
   tasks:
-    - name: stop nginx
-      service:
-          name: {{ nginxname }}
-          state: stopped
-    - name: ensure nginx is not installed
-      apt: name={{ nginxname }} state=absent
+    - name: Run a command to stop nginx container
+      command: docker stop {{ nginxname }} 
+      become: true
+
+    - name: Remove {{ nginxname }} container 
+      command: docker rm {{ nginxname }} --force
+      become: true
+      register: finalout
+    - debug: var=finalout.stdout_lines
+
+    - debug:
+        msg: {{ nginxname }} container removed
