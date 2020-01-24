@@ -1,0 +1,15 @@
+---
+- hosts: all
+  tasks:
+    - name: Run a command to stop nginx container
+      command: docker stop {{ nginxname }} 
+      become: true
+
+    - name: Remove {{ nginxname }} container 
+      command: docker rm {{ nginxname }} --force
+      become: true
+      register: finalout
+    - debug: var=finalout.stdout_lines
+
+    - debug:
+        msg: {{ nginxname }} container removed
